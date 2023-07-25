@@ -1,114 +1,128 @@
 import React, { useRef } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"
-import './App.css';
-import { Container, Button, Table } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import { Container, Button, Table } from "react-bootstrap";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
 import Contact from "./Contact";
+import { useState } from "react";
+import Foodlist1 from "./food1";
+import Foodlist2 from "./food2";
+import Foodlist3 from "./food3";
+
 
 export function Layout() {
   return (
-  <nav className="bg-secondary p-2 mb-3 text-center">
-    <NavLink 
-    to="/"
-    className="link px-2" 
-    style={({ isActive }) => {
-    return {
-      textDecoration: isActive ? "none" : "underline",
-    };
-  }}
-  >
-      Main
-    </NavLink>
-    <NavLink 
-    to="/product"
-    className="link px-2" 
-    style={({ isActive }) => {
-    return {
-      textDecoration: isActive ? "none" : "underline"    
-    };
-  }}
-  >
-      Product
-    </NavLink>
-    <NavLink 
-    to="/contact"
-    className="link px-2" 
-    style={({ isActive }) => {
-    return {
-      textDecoration: isActive ? "none" : "underline"    
-    };
-  }}
-  >
-      Contact Us
-    </NavLink>
-  </nav>
+    <nav className="nav nav-pills bg-warning p-2 mb-3 text-left">
+      <NavLink
+        to="/"
+        className="link px-2"
+        style={({ isActive }) => {
+          return {
+            textDecoration: isActive ? "none" : "underline",
+          };
+        }}
+      >
+        หน้าแรก
+      </NavLink>
+      <NavLink
+        to="/product"
+        className="link px-2"
+        style={({ isActive }) => {
+          return {
+            textDecoration: isActive ? "none" : "underline",
+          };
+        }}
+      >
+        ตารางเทียบแคลอรี่
+      </NavLink>
+      <NavLink
+        to="/contact"
+        className="link px-2"
+        style={({ isActive }) => {
+          return {
+            textDecoration: isActive ? "none" : "underline",
+          };
+        }}
+      >
+        ผู้จัดทำ
+      </NavLink>
+    </nav>
   );
 }
 
 function Index() {
-  const header1 = useRef();
-  return(
+  return (
     <>
       <Layout />
-      <h3 ref={header1}>Hello</h3>
-      <Button 
-        onClick={()=>{
-          header1.current.innerHTML = "React";
-      }}
-    >
-      Click Me
-    </Button>
+      <h4>อาหารพื้นเมืองที่มีสรรพคุณต่อสุขภาพตามวิถีภูมิปัญญาท้องถิ่นของจังหวัดอุบลราชธานี</h4>
+      <Foodlist1 />
+      <Foodlist2 />
+      <Foodlist3 />
+
     </>
   );
 }
 
 function Product() {
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [product1] = useState(300);
+  const [product2] = useState(250);
+  const [product3] = useState(350);
+
   const table = useRef();
-  const tr = useRef([]);
-  const DeleteRow = (i) => {
-    const index = tr.current[i].rowIndex;
-    table.current.DeleteRow(index);
-  };
 
-  const data = [
-    ["กางเกงยีนส์", 1200],
-    ["เสื้อยืด", 350],
-    ["กางเกงขาสั้น", 450],
-    ["หมวก", 500],
-    [""],
-  ];
-
-  return(
+  return (
     <>
       <Layout />
-      <h4>Products</h4>
+      <h4>อาหารพื้นเมืองที่มีสรรพคุณต่อสุขภาพตามวิถีภูมิปัญญาท้องถิ่นของจังหวัดอุบลราชธานี</h4>
       <Table striped bordered hover className="my-3" ref={table}>
         <thead>
           <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Delete</th>
+            <th>เมนูอาหาร</th>
+            <th>พลังงานที่ได้</th>
+            <th>เลือกเมนูนี้</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, i) => {
-            return (
-              <tr 
-              ref={(el) => {
-                tr.current[i] = el;
-              }} 
-                key={1}
-              >
-                <td>{item[0]}</td>
-                <td>{item[1]}</td>
-                <td><Button variant="danger" onClick={()=>DeleteRow(i)}>
-                  Delete
-                  </Button></td>
+              <tr>
+                <td>อู๋หน่อไม้พุงปลา</td>
+                <td>{product1}</td>
+                <td>
+                  <Button variant="primary" 
+                  onClick={()=> {
+                  setTotalPrice(totalPrice + product1);
+                  }}>
+                    เลือกเมนูนี้
+                  </Button>
+                </td>
               </tr>
-            );
-        }}}
+              <tr>
+                <td>ลาบปลาคัง</td>
+                <td>{product2}</td>
+                <td>
+                  <Button variant="primary" 
+                  onClick={()=> {
+                  setTotalPrice(totalPrice + product2);
+                  }}>
+                    เลือกเมนูนี้
+                  </Button>
+                </td>
+              </tr>
+              <tr>
+                <td>แกงอ่อมหอยขม</td>
+                <td>{product3}</td>
+                <td>
+                  <Button variant="primary" 
+                  onClick={()=> {
+                  setTotalPrice(totalPrice + product3);
+                  }}>
+                    เลือกเมนูนี้
+                  </Button>
+                </td>
+              </tr>
         </tbody>
       </Table>
+      <h3>พลังงานรวมที่ได้รับ {totalPrice} Kcal</h3>
     </>
   );
 }
@@ -116,14 +130,14 @@ function Product() {
 function App() {
   return (
     <BrowserRouter>
-    <Container className="p-3 my-3 bg-light">
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/main" element={<Index />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </Container>
+      <Container className="p-3 my-3 bg-light">
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/main" element={<Index />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </Container>
     </BrowserRouter>
   );
 }

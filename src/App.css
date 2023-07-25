@@ -1,10 +1,33 @@
+@font-face {
+  font-family: sarabun;
+  src: url(/public/font/THSarabun.ttf);
+}
+
+@font-face {
+  font-family: prompt;
+  src: url(/public/font/Prompt-Regular.ttf);
+}
+
 .link {
   color: white;
 }
+
 .link:hover {
-  color: lime;
+  color: rgb(180, 121, 4);
 }
+
 .table-hover tbody tr:hover td, 
 .table-hover tbody tr:hover th, {
   background-color: gold;
+}
+
+h4 {
+  text-align: center;
+  text-decoration: underline;
+  font-family:prompt; 
+}
+
+h3 {
+  text-align: center;
+  font-size: 14px;
 }
